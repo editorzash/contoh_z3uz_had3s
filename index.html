@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Zeus vs Hades - Gods of War™ | Pragmatic Play</title>
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body data-mode="zeus">
+  <div id="viewport">
+    <!-- 16:9 Scaled Stage (1778 x 1000 logical resolution matching Pragmatic Play UHT Desktop canvas) -->
+    <div id="stage">
+
+      <!-- ==================== 1. PRAGMATIC PLAY LOADING SCREEN ==================== -->
+      <div id="loading-screen" class="screen active">
+        <div class="pp-loader-center">
+          <div class="pp-logo-wrap">
+            <img src="assets/sprites/logo/s_anim_33.png" alt="Pragmatic Play" class="pp-official-logo-img" />
+          </div>
+          <div class="pp-progress-track">
+            <div id="loading-bar-fill" class="pp-progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 2. INTRO / CHOOSE YOUR MODE SPLASH SCREEN ==================== -->
+      <div id="intro-screen" class="screen">
+        <div class="intro-bg-layer">
+          <img src="assets/sprites/zeha_selection_bkg_land/s_zeha_selection_bkg_land.png" alt="Zeus vs Hades Intro" class="intro-bg-img" />
+          <div id="intro-particles" class="ambient-particles"></div>
+        </div>
+
+        <!-- Top Center Game Title Logo -->
+        <div class="intro-title-wrap">
+          <img src="assets/sprites/zeha_title/s_zeha_title.png" alt="Zeus vs Hades - Gods of War" class="intro-title-img" />
+        </div>
+
+        <!-- Dual Mode Chooser Cards (Olympus vs Hades) -->
+        <div class="intro-mode-cards">
+          <button id="intro-choose-zeus" class="intro-mode-card zeus active" title="Play in Olympus Mode (High Volatility)">
+            <div class="imc-badge">OLYMPUS MODE</div>
+            <div class="imc-portraits">
+              <img src="assets/sprites/S03_zeus_h1_zeus/s_S03_zeus_h1_zeus.png" alt="Zeus" class="imc-god-img" />
+              <img src="assets/sprites/S13_BB_zeus/s_S13_BB_zeus.png" alt="Expanding Wild" class="imc-emblem-img" />
+            </div>
+            <div class="imc-vol-row">
+              <span class="imc-vol-label">VOLATILITY: HIGH</span>
+              <span class="imc-bolts">⚡⚡⚡⚡<span class="dim">⚡</span></span>
+            </div>
+            <div class="imc-desc">Higher Free Spins hit frequency • Expanding Wilds up to 100x</div>
+          </button>
+
+          <button id="intro-choose-hades" class="intro-mode-card hades" title="Play in Hades Mode (Very High Volatility)">
+            <div class="imc-badge">HADES MODE</div>
+            <div class="imc-portraits">
+              <img src="assets/sprites/S03_hades_h1_hades/s_S03_hades_h1_hades.png" alt="Hades" class="imc-god-img" />
+              <img src="assets/sprites/S13_BB_hades/s_S13_BB_hades.png" alt="Expanding Wild" class="imc-emblem-img" />
+            </div>
+            <div class="imc-vol-row">
+              <span class="imc-vol-label">VOLATILITY: VERY HIGH</span>
+              <span class="imc-bolts">⚡⚡⚡⚡⚡</span>
+            </div>
+            <div class="imc-desc">Bigger average Free Spins payouts • Expanding Wilds up to 100x</div>
+          </button>
+        </div>
+
+        <!-- Right-Side Play Button, Volatility & Don't Show Next Time -->
+        <div class="intro-controls-right">
+          <button id="intro-play-btn" class="intro-play-btn" title="Continue to Game">
+            <img src="assets/sprites/GUI_v11_desktop/s_ananas.png" alt="" class="spin-crown-accent" />
+            <img src="assets/sprites/IntroScreen_spin_button/s_intro_play.png" alt="" class="intro-spin-ring" />
+            <img src="assets/sprites/IntroScreen_spin_button/s_intro_play_icon.png" alt="Play" class="intro-spin-arrows" />
+          </button>
+
+          <div class="intro-volatility-badge">
+            <img src="assets/sprites/volatility/s_volatility_box.png" alt="" class="vol-box-bg" />
+            <div class="vol-content">
+              <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" class="vol-bolt" />
+              <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" class="vol-bolt" />
+              <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" class="vol-bolt" />
+              <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" class="vol-bolt" />
+              <img id="intro-vol-bolt-5" src="assets/sprites/volatility/s_lightning_disabled.png" alt="" class="vol-bolt" />
+              <span class="vol-text">VOLATILITY</span>
+            </div>
+          </div>
+
+          <label class="intro-skip-checkbox" id="intro-skip-toggle">
+            <span class="checkbox-box">
+              <img src="assets/sprites/IntroScreen_misc/s_check_box.png" alt="" class="cb-frame" />
+              <img id="intro-cb-check" src="assets/sprites/IntroScreen_misc/s_check_mark.png" alt="" class="cb-tick hidden" />
+            </span>
+            <span class="skip-label-text">DON'T SHOW NEXT TIME</span>
+          </label>
+        </div>
+
+        <!-- Bottom Feature Headline Banner -->
+        <div class="intro-bottom-headline">
+          <span class="intro-hl-gold">EXPANDING WILDS WITH MULTIPLIERS UP TO</span>
+          <span class="intro-hl-accent" data-text="100X">100X</span>
+          <span class="intro-hl-gold">&amp; MAX WIN UP TO</span>
+          <span class="intro-hl-accent" data-text="15,000X">15,000X</span>
+        </div>
+      </div>
+
+      <!-- ==================== 3. MAIN GAME SCREEN (ZEUS VS HADES 5x5 / 15 PAYLINES) ==================== -->
+      <div id="game-screen" class="screen">
+        <!-- Dynamic Olympus & Hades Backgrounds -->
+        <div class="game-bg-layer">
+          <img id="game-bg-zeus-base" src="assets/sprites/zeha_bkg_base_land_zeus/s_zeha_bkg_base_land_zeus.png" alt="" class="game-bg-img active" />
+          <img id="game-bg-zeus-free" src="assets/sprites/zeha_bkg_fs_land_zeus/s_zeha_bkg_fs_land_zeus.png" alt="" class="game-bg-img" />
+          <img id="game-bg-hades-base" src="assets/sprites/zeha_bkg_base_hades/s_zeha_bkg_base_hades.png" alt="" class="game-bg-img" />
+          <img id="game-bg-hades-free" src="assets/sprites/zeha_bkg_base_hades/s_zeha_bkg_base_hades.png" alt="" class="game-bg-img hades-fs-tint" />
+          <div id="bg-fx-layer" class="bg-fx-layer"></div>
+        </div>
+
+        <!-- Mode Switch Flash Overlay -->
+        <div id="mode-transition-overlay" class="mode-transition-overlay hidden">
+          <img id="mode-transition-img" src="assets/sprites/zeha_transition_zeus_zeha_transition_zeus/s_Transition_00007.png" alt="" />
+        </div>
+
+        <!-- Left Side Column: Buy Free Spins (Standard & Super), Free Spins Counter & Demo Triggers -->
+        <div class="left-side-column">
+          <!-- Free Spins Left Panel (Visible during Free Spins) -->
+          <div id="fs-counter-panel" class="fs-counter-panel hidden">
+            <img src="assets/sprites/zeha_buy_feature_zeha_buy_feature3/s_red_banner.png" alt="" class="fs-panel-bg" />
+            <div class="fs-panel-content">
+              <div class="fs-label-top">FREE SPINS</div>
+              <div id="fs-remaining-count" class="fs-count-num">10</div>
+              <div class="fs-label-sub">REMAINING</div>
+            </div>
+          </div>
+
+          <!-- Buy Free Spins Option 1: Standard (75x Olympus / 150x Hades) -->
+          <button id="buy-fs-btn" class="buy-fs-panel-btn" title="Buy Free Spins">
+            <img src="assets/sprites/zeha_buy_feature_zeha_buy_feature3/s_red_banner.png" alt="" class="buy-panel-bg" />
+            <div class="buy-panel-content">
+              <div class="buy-header-row">
+                <img id="buy-std-icon" src="assets/sprites/S01_zeus_scatter/s_S01_zeus_scatter.png" alt="" class="buy-mini-icon" />
+                <div>
+                  <span class="buy-title">BUY FREE SPINS</span>
+                  <span id="buy-std-mult-tag" class="buy-sub">75x TOTAL BET</span>
+                </div>
+              </div>
+              <span id="buy-price-label" class="buy-price">$150.00</span>
+            </div>
+          </button>
+
+          <!-- Buy Free Spins Option 2: Super Free Spins (300x Bet - Guaranteed Expanding Wild) -->
+          <button id="buy-super-fs-btn" class="buy-fs-panel-btn super" title="Buy Super Free Spins (300x Bet - Guaranteed Expanding Wild)">
+            <img src="assets/sprites/zeha_buy_feature_zeha_buy_feature3/s_red_banner.png" alt="" class="buy-panel-bg" />
+            <div class="buy-panel-content">
+              <div class="buy-header-row">
+                <img id="buy-super-icon" src="assets/sprites/S13_BB_zeus/s_S13_BB_zeus.png" alt="" class="buy-mini-icon" />
+                <div>
+                  <span class="buy-title">BUY SUPER FS</span>
+                  <span class="buy-sub">300x • GUARANTEED WILD</span>
+                </div>
+              </div>
+              <span id="buy-super-price-label" class="buy-price">$600.00</span>
+            </div>
+          </button>
+
+          <!-- Demo / Test Feature Bar (Allows testing Expanding Wild Duels, Free Spins, Max Win & 4,553 Assets) -->
+          <div class="demo-feature-bar">
+            <div class="demo-bar-title">TEST FEATURES</div>
+            <button class="demo-chip" data-force="expand_duel" title="Force Expanding Wilds + Zeus vs Hades Multiplier Duel">Wild Duel (2x–100x)</button>
+            <button class="demo-chip" data-force="freespins" title="Force 3 Temple Scatters on Reels 1, 3, 5 (10 Free Spins)">Free Spins (3 Scatters)</button>
+            <button class="demo-chip" data-force="super_fs" title="Force Super Free Spins with Sticky Expanding Wild">Super Free Spins</button>
+            <button class="demo-chip" data-force="maxwin" title="Force 5 Expanding Wilds 100x (15,000x Max Win)">15,000x Max Win</button>
+            <button id="open-assets-btn" class="demo-chip accent" title="Browse all 4,553 extracted sprites &amp; 194 textures">4,553 Assets</button>
+          </div>
+        </div>
+
+        <!-- Center 5x5 Reel Assembly (15 Paylines) -->
+        <div id="reel-assembly" class="reel-assembly">
+          <!-- 1. Mode-Specific Reel Background -->
+          <img id="reel-backdrop-zeus-base" src="assets/sprites/zeha_reel_bkg_zeus/s_zeha_reel_bkg_base_zeus.png" alt="" class="reel-backdrop-img active" />
+          <img id="reel-backdrop-zeus-free" src="assets/sprites/zeha_reel_bkg_zeus/s_zeha_reel_bkg_fs_zeus.png" alt="" class="reel-backdrop-img" />
+          <img id="reel-backdrop-hades-base" src="assets/sprites/zeha_reel_bkg_hades/s_zeha_reel_bkg_base_hades.png" alt="" class="reel-backdrop-img" />
+          <img id="reel-backdrop-hades-free" src="assets/sprites/zeha_reel_bkg_hades/s_zeha_reel_bkg_fs_hades.png" alt="" class="reel-backdrop-img" />
+
+          <!-- 2. Clipped 5x5 Reel Window -->
+          <div id="reels-viewport" class="reels-viewport">
+            <img id="reel-dividers-zeus" src="assets/sprites/zeha_reel_dividers_zeus/s_zeha_reel_dividers_zeus.png" alt="" class="reel-dividers-img active" />
+            <img id="reel-dividers-hades" src="assets/sprites/zeha_reel_dividers_hades/s_zeha_reel_dividers_hades.png" alt="" class="reel-dividers-img" />
+
+            <div id="reels-container" class="reels-container">
+              <!-- Reels 0..4 (5 rows each) + Expanding Wild Battle Overlays injected by src/game.js -->
+            </div>
+
+            <!-- Payline SVG Overlay for Highlighting Winning Lines 1..15 -->
+            <svg id="paylines-svg" class="paylines-svg" viewBox="0 0 910 730"></svg>
+
+            <!-- Symbol Click Mini Paytable Popup -->
+            <div id="symbol-callout" class="symbol-callout hidden">
+              <div class="callout-inner">
+                <img id="callout-img" src="assets/sprites/S03_zeus_h1_zeus/s_S03_zeus_h1_zeus.png" alt="" class="callout-sym-img" />
+                <div id="callout-text" class="callout-pay-text"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Mode-Specific Ornate Reel Frame (Zeus Lightning Frame vs Hades Bident Frame) -->
+          <img id="reel-frame-zeus" src="assets/sprites/zeha_reel_frame_zeus/s_zeha_reel_frame_zeus.png" alt="" class="reel-frame-img active" />
+          <img id="reel-frame-hades" src="assets/sprites/zeha_reel_frame_hades/s_zeha_reel_frame_hades.png" alt="" class="reel-frame-img" />
+
+          <!-- 4. Bottom Win & Message Banner -->
+          <div id="bottom-banner-zone" class="bottom-banner-zone">
+            <div id="banner-idle-msg" class="banner-idle-msg">WIN UP TO 15,000X BET • EXPANDING WILDS UP TO 100X</div>
+            <div id="banner-win-box" class="banner-win-box hidden">
+              <div id="banner-tumble-detail" class="banner-tumble-detail"></div>
+              <div class="banner-total-win-row">
+                <span id="banner-win-label" class="banner-win-label">WIN</span>
+                <span id="banner-win-amount" class="banner-win-amount">$0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right-Side Column: Game Title Logo & Interactive Olympus / Hades Mode Switcher -->
+        <div class="right-side-column">
+          <div class="game-logo-right">
+            <img src="assets/sprites/zeha_title/s_zeha_title.png" alt="Zeus vs Hades - Gods of War" class="game-logo-img" />
+          </div>
+
+          <!-- Authentic Mode Switcher Widget (Olympus <-> Hades) -->
+          <div id="mode-switcher-widget" class="mode-switcher-widget">
+            <div class="ms-header">CHOOSE GAME MODE</div>
+            <div class="ms-buttons">
+              <button id="btn-mode-zeus" class="ms-mode-btn zeus active" title="Switch to Olympus Mode (High Volatility)">
+                <img src="assets/sprites/S13_BB_zeus/s_S13_BB_zeus.png" alt="Olympus" class="ms-btn-emblem" />
+                <div class="ms-btn-text">
+                  <span class="ms-btn-name">OLYMPUS</span>
+                  <span class="ms-btn-vol">HIGH VOLATILITY</span>
+                </div>
+              </button>
+
+              <button id="btn-mode-hades" class="ms-mode-btn hades" title="Switch to Hades Mode (Very High Volatility)">
+                <img src="assets/sprites/S13_BB_hades/s_S13_BB_hades.png" alt="Hades" class="ms-btn-emblem" />
+                <div class="ms-btn-text">
+                  <span class="ms-btn-name">HADES</span>
+                  <span class="ms-btn-vol">VERY HIGH VOL.</span>
+                </div>
+              </button>
+            </div>
+            <div class="ms-volatility-meter">
+              <img src="assets/sprites/volatility/s_volatility_box.png" alt="" class="ms-vol-bg" />
+              <div class="ms-vol-inner">
+                <span class="ms-vol-caption">VOLATILITY</span>
+                <div class="ms-bolts-row">
+                  <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" />
+                  <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" />
+                  <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" />
+                  <img src="assets/sprites/volatility/s_lightning_enabled.png" alt="" />
+                  <img id="hud-vol-bolt-5" src="assets/sprites/volatility/s_lightning_disabled.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== 4. PRAGMATIC PLAY BOTTOM HUD BAR ==================== -->
+        <div class="pp-hud-bar">
+          <!-- Bottom-Left: Menu, Sound, Info, Pragmatic Play Watermark, Credit & Bet -->
+          <div class="hud-left">
+            <div class="hud-mini-stack">
+              <button id="btn-menu" class="hud-icon-btn small" title="System Settings">
+                <img src="assets/sprites/GUI/s_Menu.png" alt="Menu" />
+              </button>
+              <button id="btn-sound" class="hud-icon-btn small" title="Toggle Sound">
+                <img id="sound-icon-img" src="assets/sprites/GUI/s_Sound.png" alt="Sound" />
+              </button>
+            </div>
+
+            <button id="btn-info" class="hud-icon-btn info-btn" title="Paytable &amp; Game Rules">
+              <img src="assets/sprites/GUI/s_Paytable.png" alt="Info" />
+            </button>
+
+            <div class="hud-credit-bet" id="credit-bet-toggle" title="Click to toggle Cash / Coins">
+              <div class="hud-stat-row">
+                <span class="hud-stat-label">CREDIT</span>
+                <span id="hud-credit-val" class="hud-stat-val">$100,000.00</span>
+              </div>
+              <div class="hud-stat-row">
+                <span class="hud-stat-label">BET</span>
+                <span id="hud-bet-val" class="hud-stat-val">$2.00</span>
+              </div>
+            </div>
+
+            <img src="assets/sprites/GUI_v11_desktop/s_PragmaticPlay.png" alt="PRAGMATIC PLAY" class="pp-hud-watermark" />
+          </div>
+
+          <!-- Bottom-Right: Minus, Big Circular Spin Button + Crown, Plus, Autoplay Pill -->
+          <div class="hud-right">
+            <button id="btn-bet-minus" class="hud-icon-btn bet-adj-btn" title="Decrease Bet">
+              <img src="assets/sprites/GUI/s_Decrement.png" alt="-" />
+            </button>
+
+            <div class="spin-cluster">
+              <button id="btn-spin" class="hud-spin-btn" title="Spin (Space / Enter)">
+                <img src="assets/sprites/GUI_v11_desktop/s_ananas.png" alt="" class="hud-spin-crown" />
+                <img id="spin-btn-bg" src="assets/sprites/GUI_v11_desktop/s_spin_normal.png" alt="Spin" class="hud-spin-disc" />
+                <img id="spin-stop-icon" src="assets/sprites/GUI_v11_desktop/s_Spin_Stop_Icon.png" alt="Stop" class="hud-spin-stop hidden" />
+              </button>
+
+              <button id="btn-autoplay" class="hud-autoplay-pill" title="Autoplay">
+                <span class="auto-icon-wrap">
+                  <img src="assets/sprites/GUI_v11/s_autoplay.png" alt="" class="auto-icon-img" />
+                </span>
+                <span id="autoplay-btn-text" class="auto-pill-text">AUTOPLAY</span>
+              </button>
+            </div>
+
+            <button id="btn-bet-plus" class="hud-icon-btn bet-adj-btn" title="Increase Bet">
+              <img src="assets/sprites/GUI/s_Increment.png" alt="+" />
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================== 5. BIG WIN / FREE SPINS CELEBRATION OVERLAY ==================== -->
+        <div id="celebration-overlay" class="celebration-overlay hidden">
+          <div class="celeb-backdrop"></div>
+          <img src="assets/sprites/zeha_banner_zeus_zeha_banner_zeus2/s_cyan_rays.png" alt="" class="celeb-rays-spin" />
+          <div id="celeb-coin-fountain" class="celeb-coin-fountain"></div>
+          <div class="celeb-content">
+            <img id="celeb-tier-img" src="assets/sprites/zeha_bigwin_zeus_zeha_bigwin_zeus4/s_green_nice.png" alt="BIG WIN" class="celeb-tier-img" />
+            <div id="celeb-title-text" class="celeb-title-text">CONGRATULATIONS!</div>
+            <div id="celeb-subtitle-text" class="celeb-subtitle-text"></div>
+            <div id="celeb-amount-text" class="celeb-amount-text">$0.00</div>
+            <button id="celeb-continue-btn" class="celeb-continue-btn">CLICK TO CONTINUE</button>
+          </div>
+        </div>
+
+        <!-- ==================== 6. PAYTABLE & GAME RULES MODAL (7 PAGES) ==================== -->
+        <div id="paytable-modal" class="modal-overlay hidden">
+          <div class="paytable-window">
+            <div class="pt-header">
+              <span id="pt-page-title" class="pt-header-title">PAYTABLE &amp; GAME RULES — ZEUS VS HADES: GODS OF WAR™</span>
+              <span id="pt-page-indicator" class="pt-page-indicator">PAGE 1 / 7</span>
+            </div>
+            <div id="pt-body" class="pt-body">
+              <!-- Populated dynamically by src/game.js with current mode & bet payouts -->
+            </div>
+            <div class="pt-footer">
+              <button id="pt-prev-btn" class="pt-nav-btn">
+                <img src="assets/sprites/paytable_common/s_PaytablePageButton_Left_Normal.png" alt="Prev" />
+              </button>
+              <div id="pt-dots" class="pt-dots"></div>
+              <button id="pt-next-btn" class="pt-nav-btn">
+                <img src="assets/sprites/paytable_common/s_PaytablePageButton_Right_Normal.png" alt="Next" />
+              </button>
+              <button id="pt-close-btn" class="pt-nav-btn pt-close-btn">
+                <img src="assets/sprites/paytable_common/s_PaytablePageButton_Close_Normal.png" alt="Close" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== 7. BUY FREE SPINS CONFIRMATION MODAL ==================== -->
+        <div id="buy-modal" class="modal-overlay hidden">
+          <div class="buy-dialog">
+            <img id="buy-dialog-bg-img" src="assets/sprites/zeha_buyfs_confirm_window/s_zeha_buyfs_confim_bkg_left.png" alt="" class="buy-dialog-bg" />
+            <div class="buy-dialog-content">
+              <div id="buy-dialog-title" class="buy-dialog-title">BUY FREE SPINS</div>
+              <div id="buy-dialog-desc" class="buy-dialog-desc">Instantly trigger 10 FREE SPINS with 3 SCATTER symbols on reels 1, 3, and 5:</div>
+              <div id="buy-dialog-cost" class="buy-dialog-cost">$150.00</div>
+              <div class="buy-dialog-actions">
+                <button id="buy-confirm-yes" class="buy-action-btn yes">
+                  <img src="assets/sprites/zeha_buyfs_confirm_window/s_zeha_buyfs_confim_yes.png" alt="Yes" />
+                </button>
+                <button id="buy-confirm-no" class="buy-action-btn no">
+                  <img src="assets/sprites/zeha_buyfs_confirm_window/s_zeha_buyfs_confim_no.png" alt="No" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== 8. BET & SYSTEM SETTINGS MODAL ==================== -->
+        <div id="settings-modal" class="modal-overlay hidden">
+          <div class="settings-window">
+            <div class="settings-header">
+              <span id="settings-modal-title">BET MULTIPLIER &amp; SYSTEM SETTINGS</span>
+              <button id="settings-close-btn" class="settings-x-btn">&times;</button>
+            </div>
+            <div class="settings-body">
+              <div class="settings-row">
+                <span>TOTAL BET ($0.10 – $100.00 • 15 PAYLINES)</span>
+                <div class="settings-bet-controls">
+                  <button id="modal-bet-minus" class="s-round-btn">&minus;</button>
+                  <span id="modal-bet-display" class="s-bet-val">$2.00</span>
+                  <button id="modal-bet-plus" class="s-round-btn">+</button>
+                </div>
+              </div>
+              <div class="settings-row">
+                <span>QUICK / TURBO SPIN</span>
+                <input type="checkbox" id="toggle-turbo" class="s-toggle" />
+              </div>
+              <div class="settings-row">
+                <span>SOUND EFFECTS &amp; MUSIC</span>
+                <input type="checkbox" id="toggle-audio" class="s-toggle" checked />
+              </div>
+              <div class="settings-row">
+                <span>AUTOPLAY SPINS</span>
+                <div class="auto-preset-group">
+                  <button class="auto-preset-btn" data-spins="10">10</button>
+                  <button class="auto-preset-btn" data-spins="25">25</button>
+                  <button class="auto-preset-btn" data-spins="50">50</button>
+                  <button class="auto-preset-btn" data-spins="100">100</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== 9. EXTRACTED ASSET GALLERY MODAL (186 ATLASES / 4,553 SPRITES) ==================== -->
+        <div id="assets-modal" class="modal-overlay hidden">
+          <div class="assets-explorer-window">
+            <div class="assets-header">
+              <div>
+                <div class="assets-title">EXTRACTED ASSET EXPLORER — ZEUS VS HADES: GODS OF WAR™ (vs15godsofwar)</div>
+                <div id="assets-summary-text" class="assets-subtitle">186 Texture Atlases • 4,553 Cropped Sprites • 194 Textures • 20 Fonts • 46 Spine Skeletons</div>
+              </div>
+              <div class="assets-controls">
+                <input type="text" id="asset-search-input" placeholder="Search sprite or atlas (e.g. zeus, hades, wild, S03)..." />
+                <select id="asset-atlas-filter">
+                  <option value="ALL">All 186 Atlases (4,553 Sprites)</option>
+                </select>
+                <button id="assets-close-btn" class="settings-x-btn">&times;</button>
+              </div>
+            </div>
+            <div id="assets-grid" class="assets-grid"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="src/game.js"></script>
+</body>
+</html>
